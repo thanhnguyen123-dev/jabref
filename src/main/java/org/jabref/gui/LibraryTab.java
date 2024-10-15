@@ -34,6 +34,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
 import org.jabref.gui.actions.StandardActions;
@@ -136,7 +137,11 @@ public class LibraryTab extends Tab {
     private MainTable mainTable;
     private PanelMode mode = PanelMode.MAIN_TABLE;
     private SplitPane splitPane;
+    private SplitPane splitPaneUpper;       // A5 tests
     private DatabaseNotification databaseNotificationPane;
+
+    //A5 tests
+    private StackPane bookCover;
 
     // Indicates whether the tab is loading data using a dataloading task
     // The constructors take care to the right true/false assignment during start.
@@ -515,10 +520,15 @@ public class LibraryTab extends Tab {
     public void setupMainPanel() {
         splitPane = new SplitPane();
         splitPane.setOrientation(Orientation.VERTICAL);
+        splitPaneUpper = new SplitPane();
+        splitPaneUpper.setOrientation(Orientation.HORIZONTAL);
+        bookCover = new StackPane();
 
         createMainTable();
 
-        splitPane.getItems().add(mainTable);
+        splitPaneUpper.getItems().addAll(mainTable,bookCover);
+        splitPane.getItems().add(splitPaneUpper);
+
         databaseNotificationPane = new DatabaseNotification(splitPane);
         setContent(databaseNotificationPane);
 
@@ -585,6 +595,19 @@ public class LibraryTab extends Tab {
             showing = entry;
         }
         entryEditor.requestFocus();
+    }
+
+    /**
+     * A5 tests - this is meant to show the book cover next to the MainTable with all the citations
+     *
+     * @param entry
+     */
+    public void showBookCover(BibEntry entry) {
+        if (!splitPaneUpper.getItems().contains(bookCover)) {
+            splitPaneUpper.getItems().addLast(bookCover);
+            // Todo A5 tests - improve this:   mode = PanelMode.MAIN_TABLE_AND_ENTRY_EDITOR;
+            splitPaneUpper.setDividerPositions(preferences.getEntryEditorPreferences().getDividerPosition());
+        }
     }
 
     /**
