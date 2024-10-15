@@ -24,6 +24,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
+import javafx.scene.image.Image;
 
 import org.jabref.architecture.AllowedToUseLogic;
 import org.jabref.logic.bibtex.FileFieldWriter;
@@ -770,6 +771,19 @@ public class BibEntry implements Cloneable {
 
     public Optional<ISBN> getISBN() {
         return getField(StandardField.ISBN).flatMap(ISBN::parse);
+    }
+
+    /**
+     * A5 tests
+     * Returns a newly made Image object, made using the path to the cover image stored in the
+     * Files field
+     * @return
+     */
+    public Optional<Image> getCoverImage() {
+        return this.getFiles().stream()
+                   .filter(file -> "coverimage".equalsIgnoreCase(file.getDescription()))
+                   .findFirst()
+                   .map(file -> new Image("file:///" + file.getLink()));
     }
 
     /**
