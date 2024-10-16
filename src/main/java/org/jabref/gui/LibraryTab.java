@@ -33,6 +33,11 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.Tooltip;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
@@ -141,7 +146,7 @@ public class LibraryTab extends Tab {
     private DatabaseNotification databaseNotificationPane;
 
     //A5 tests
-    private StackPane bookCover;
+    private StackPane bookCover;        // Todo a5 tests - this needs to be a separate object, not just a stackpane, maybe with custom methods to update the cover image when given an BibEntry object
 
     // Indicates whether the tab is loading data using a dataloading task
     // The constructors take care to the right true/false assignment during start.
@@ -608,6 +613,12 @@ public class LibraryTab extends Tab {
             // Todo A5 tests - improve this:   mode = PanelMode.MAIN_TABLE_AND_ENTRY_EDITOR;
             splitPaneUpper.setDividerPositions(preferences.getEntryEditorPreferences().getDividerPosition());
         }
+
+        // Todo a5 tests - just a test, must fix later
+        entry.getCoverImage().ifPresent(image -> bookCover.setBackground(new Background(new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, true, true, false, true)))));
+
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>");  // Todo a5 tests - remove later
+
     }
 
     /**

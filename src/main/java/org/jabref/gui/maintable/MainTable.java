@@ -130,6 +130,9 @@ public class MainTable extends TableView<BibEntryTableViewModel> {
 
         new ViewModelTableRowFactory<BibEntryTableViewModel>()
                 .withOnMouseClickedEvent((entry, event) -> {
+                    if (event.getClickCount() == 1) {
+                        libraryTab.showBookCover(entry.getEntry());
+                    }
                     if (event.getClickCount() == 2) {
                         libraryTab.showAndEdit(entry.getEntry());
                     }
