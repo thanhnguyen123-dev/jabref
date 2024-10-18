@@ -33,6 +33,7 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
@@ -147,6 +148,8 @@ public class LibraryTab extends Tab {
 
     //A5 tests
     private StackPane bookCover;        // Todo a5 tests - this needs to be a separate object, not just a stackpane, maybe with custom methods to update the cover image when given an BibEntry object
+    private String DEFAULT_IMAGE_PATH = "/images/external/default_image.png";
+
 
     // Indicates whether the tab is loading data using a dataloading task
     // The constructors take care to the right true/false assignment during start.
@@ -531,7 +534,7 @@ public class LibraryTab extends Tab {
 
         createMainTable();
 
-        splitPaneUpper.getItems().addAll(mainTable,bookCover);
+        splitPaneUpper.getItems().addAll(mainTable, bookCover);
         splitPane.getItems().add(splitPaneUpper);
 
         databaseNotificationPane = new DatabaseNotification(splitPane);
@@ -614,11 +617,13 @@ public class LibraryTab extends Tab {
             splitPaneUpper.setDividerPositions(preferences.getEntryEditorPreferences().getDividerPosition());
         }
 
-        // Todo a5 tests - just a test, must fix later
-        entry.getCoverImage().ifPresent(image -> bookCover.setBackground(new Background(new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, true, true, false, true)))));
+        String absolutePath = getClass().getResource(DEFAULT_IMAGE_PATH).toString();
+        Image defaultImage = new Image(absolutePath);
 
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>");  // Todo a5 tests - remove later
-
+        entry.getCoverImage().ifPresentOrElse(
+                image -> bookCover.setBackground(new Background(new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, true, true, false, true)))),
+                () -> bookCover.setBackground(new Background(new BackgroundImage(defaultImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, true, true, false, true))))
+        );
     }
 
     /**
