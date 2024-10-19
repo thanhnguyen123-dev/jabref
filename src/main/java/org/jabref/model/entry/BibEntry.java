@@ -782,10 +782,12 @@ public class BibEntry implements Cloneable {
     public Optional<Image> getCoverImage() {
         Optional<Image> firstImage = Optional.empty();
         for (LinkedFile file : this.getFiles()) {
-            if ("cover".equalsIgnoreCase(file.getDescription()) && isImage(file)) {
-                return Optional.of(new Image("file:///" + file.getLink()));
-            } else if (isImage(file)) {
-                firstImage = Optional.of(new Image("file:///" + file.getLink()));
+            if (isImage(file)) {
+                if ("cover".equalsIgnoreCase(file.getDescription())) {
+                    return Optional.of(new Image("file:///" + file.getLink()));
+                } else if (firstImage.isEmpty()) {
+                    firstImage = Optional.of(new Image("file:///" + file.getLink()));
+                }
             }
         }
         return firstImage;
