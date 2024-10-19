@@ -613,17 +613,21 @@ public class LibraryTab extends Tab {
     public void showBookCover(BibEntry entry) {
         if (!splitPaneUpper.getItems().contains(bookCover)) {
             splitPaneUpper.getItems().addLast(bookCover);
-            // Todo A5 tests - improve this:   mode = PanelMode.MAIN_TABLE_AND_ENTRY_EDITOR;
             splitPaneUpper.setDividerPositions(preferences.getEntryEditorPreferences().getDividerPosition());
         }
 
-        String absolutePath = getClass().getResource(DEFAULT_IMAGE_PATH).toString();
-        Image defaultImage = new Image(absolutePath);
+        try {
+            String absolutePath = getClass().getResource(DEFAULT_IMAGE_PATH).toString();
+            Image defaultImage = new Image(absolutePath);
 
-        entry.getCoverImage().ifPresentOrElse(
-                image -> bookCover.setBackground(new Background(new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, true, true, false, true)))),
-                () -> bookCover.setBackground(new Background(new BackgroundImage(defaultImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, true, true, false, true))))
-        );
+            entry.getCoverImage().ifPresentOrElse(
+                    image -> bookCover.setBackground(new Background(new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, true, true, false, true)))),
+                    () -> bookCover.setBackground(new Background(new BackgroundImage(defaultImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, true, true, false, true))))
+            );
+        } catch (Exception e) {
+            LOGGER.error("Failed to load default image", e);
+            bookCover.setBackground(null); // Set a fallback background or handle the error appropriately
+        }
     }
 
     /**
