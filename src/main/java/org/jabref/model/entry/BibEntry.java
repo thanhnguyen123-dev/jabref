@@ -774,10 +774,9 @@ public class BibEntry implements Cloneable {
     }
 
     /**
-     * A5 tests
      * Returns a newly made Image object, made using the path to the cover image stored in the
-     * Files field
-     * @return
+     * Files field. If an image has a "cover" description, it is returned as the first priority.
+     * @return optional image
      */
     public Optional<Image> getCoverImage() {
         Optional<Image> firstImage = Optional.empty();
@@ -795,8 +794,7 @@ public class BibEntry implements Cloneable {
 
     /**
      * checks if the file is an image
-     * @param file
-     * @return
+     * @return true if the file is an image
      */
     private boolean isImage(LinkedFile file) {
         return "jpg".equalsIgnoreCase(file.getFileType()) || "png".equalsIgnoreCase(file.getFileType())

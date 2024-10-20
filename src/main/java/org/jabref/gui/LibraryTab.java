@@ -606,9 +606,9 @@ public class LibraryTab extends Tab {
     }
 
     /**
-     * A5 tests - this is meant to show the book cover next to the MainTable with all the citations
+     * Show the book cover of the given entry.
      *
-     * @param entry
+     * @param entry the entry to show the book cover for
      */
     public void showBookCover(BibEntry entry) {
         if (!splitPaneUpper.getItems().contains(bookCover)) {
@@ -626,7 +626,7 @@ public class LibraryTab extends Tab {
             );
         } catch (Exception e) {
             LOGGER.error("Failed to load default image", e);
-            bookCover.setBackground(null); // Set a fallback background or handle the error appropriately
+            bookCover.setBackground(null);
         }
     }
 
