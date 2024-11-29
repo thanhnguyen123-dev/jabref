@@ -1137,7 +1137,7 @@ public class BibEntry implements Cloneable {
 
     /**
      * @return <code>LinkedFile</code> that contains the cover image
-     * if the <code>BibEntry</code> is a Book or other <code>COVERABLE_TYPES</code>
+     * if the <code>BibEntry</code> is a Book or another <code>COVERABLE_TYPES</code>
      */
     public Optional<LinkedFile> getCoverImageFile() {
         if (!isCoverable()) {
